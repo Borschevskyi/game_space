@@ -38,7 +38,7 @@ def update(bg_color, screen, gun, enemies, bullets):
     enemies.draw(screen)
     pygame.display.flip()
 
-def update_bullets(enemies, bullets):
+def update_bullets(bullets, enemies):
     "обновлять позиции пуль"
     bullets.update()
     for bullet in bullets.copy():
