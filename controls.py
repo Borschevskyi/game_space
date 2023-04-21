@@ -39,21 +39,29 @@ def update(bg_color, screen, gun, enemies, bullets):
     enemies.draw(screen)
     pygame.display.flip()
 
-def update_bullets(bullets, enemies):
+def update_bullets(screen, bullets, enemies):
     "обновлять позиции пуль"
     bullets.update()
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
     collisions =  pygame.sprite.groupcollide(bullets, enemies, True, True)
+    if len(enemies) == 0:
+        bullets.empty()
+        create_army(screen, enemies)
+
 
 def gun_kill(stats, screen, gun, enemies, bullets):
-    stats.guns_left -= 1
-    enemies.empty()
-    bullets.empty()
-    create_army(screen, enemies)
-    gun.create_gun()
-    time.sleep(1)
+    if stats.guns_left > 0:
+        stats.guns_left -= 1
+        enemies.empty()
+        bullets.empty()
+        create_army(screen, enemies)
+        gun.create_gun()
+        time.sleep(1)
+    else:
+        stats.run_game = False
+        sys.exit()
 
 def update_enemies(stats, screen, gun, enemies, bullets):
     "обновляет позицию жуликов"
@@ -78,15 +86,16 @@ def create_army(screen, enemies):
     "создание армии жуликов"
     enemy = Enemy(screen)
     enemy_width = enemy.rect.width
-    nubmer_enemy_x = int((700 - 6 * enemy_width) / enemy_width)
+    # ширина жуликов
+    nubmer_enemy_x = int((700 - 8 * enemy_width) / enemy_width) # колличество жуликов в ряду
     enemy_height = enemy.rect.height
-    number_enemy_y = int((800 - 300 - 3 * 1) / enemy_height)
+    number_enemy_y = int((800 - 400 * 1) / enemy_height)
 
-    for row_number in range (number_enemy_y - 5):
+    for row_number in range (number_enemy_y - 1):# жулики по высоте
         for enemy_nubmer in range(nubmer_enemy_x):
             enemy = Enemy(screen)
-            enemy.x = enemy_width + ((enemy_width * 1.3) * enemy_nubmer)
-            enemy.y = enemy_height + ((enemy_height * 1.3) * row_number)
+            enemy.x = (enemy_width * 1.6) + ((enemy_width * 1.4) * enemy_nubmer) #Расстояние между жуликами
+            enemy.y = enemy_height + ((enemy_height * 1.5) * row_number) #Расстояние между жуликами вертикально
             enemy.rect.x = enemy.x
             enemy.rect.y = enemy.rect.height + (enemy.rect.height * row_number)
             enemies.add(enemy)
