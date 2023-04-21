@@ -61,6 +61,17 @@ def update_enemies(stats, screen, gun, enemies, bullets):
     if pygame.sprite.spritecollideany(gun, enemies):
         gun_kill(stats, screen, gun, enemies, bullets)
 
+    enemies_check(stats, screen, gun, enemies, bullets)
+
+
+def enemies_check(stats, screen, gun, enemies, bullets):
+    #проверка жуликов у края экрана
+    screen_rect = screen.get_rect()
+    for enemу in enemies.sprites():
+        if enemу.rect.bottom >= screen_rect.bottom:
+            gun_kill(stats, screen, gun, enemies, bullets)
+            break
+
 
 
 def create_army(screen, enemies):
