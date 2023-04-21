@@ -1,6 +1,7 @@
 import pygame, sys
 from bullet import Bullet
 from enemy import Enemy
+import time
 
 def events(screen, gun, bullets):
     "Обработка событий"
@@ -46,23 +47,35 @@ def update_bullets(bullets, enemies):
             bullets.remove(bullet)
     collisions =  pygame.sprite.groupcollide(bullets, enemies, True, True)
 
-def update_enemies(enemies):
+def gun_kill(stats, screen, gun, enemies, bullets):
+    stats.guns_left -= 1
+    enemies.empty()
+    bullets.empty()
+    create_army(screen, enemies)
+    gun.create_gun()
+    time.sleep(1)
+
+def update_enemies(stats, screen, gun, enemies, bullets):
     "обновляет позицию жуликов"
     enemies.update()
+    if pygame.sprite.spritecollideany(gun, enemies):
+        gun_kill(stats, screen, gun, enemies, bullets)
+
+
 
 def create_army(screen, enemies):
     "создание армии жуликов"
     enemy = Enemy(screen)
     enemy_width = enemy.rect.width
-    nubmer_enemy_x = int((700 - 2 * enemy_width) / enemy_width)
+    nubmer_enemy_x = int((700 - 6 * enemy_width) / enemy_width)
     enemy_height = enemy.rect.height
-    number_enemy_y = int((800 - 100 - 2 * enemy_height) / enemy_height)
+    number_enemy_y = int((800 - 300 - 3 * 1) / enemy_height)
 
-    for row_number in range (number_enemy_y - 3):
+    for row_number in range (number_enemy_y - 5):
         for enemy_nubmer in range(nubmer_enemy_x):
             enemy = Enemy(screen)
-            enemy.x = enemy_width + (enemy_width * enemy_nubmer)
-            enemy.y = enemy_height + (enemy_height * row_number)
+            enemy.x = enemy_width + ((enemy_width * 1.3) * enemy_nubmer)
+            enemy.y = enemy_height + ((enemy_height * 1.3) * row_number)
             enemy.rect.x = enemy.x
             enemy.rect.y = enemy.rect.height + (enemy.rect.height * row_number)
             enemies.add(enemy)
