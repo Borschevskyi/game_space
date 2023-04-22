@@ -23,6 +23,6 @@ def run():
             gun.update_gun()
             controls.update(bg_color, screen, stats, sc, gun, enemies, bullets)
             controls.update_bullets(screen, stats, sc, bullets, enemies)
-            controls.update_enemies(stats, screen, gun, enemies, bullets)
+            controls.update_enemies(stats, screen, sc, gun, enemies, bullets)
 
 run()

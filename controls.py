@@ -52,14 +52,16 @@ def update_bullets(screen, stats, sc, bullets, enemies):
             stats.score += 10 * len(enemies)
         sc.image_score()
         check_high_score(stats, sc)
+        sc.image_guns()
     if len(enemies) == 0:
         bullets.empty()
         create_army(screen, enemies)
 
 
-def gun_kill(stats, screen, gun, enemies, bullets):
+def gun_kill(stats, screen, sc,  gun, enemies, bullets):
     if stats.guns_left > 0:
         stats.guns_left -= 1
+        sc.image_guns()
         enemies.empty()
         bullets.empty()
         create_army(screen, enemies)
@@ -69,21 +71,20 @@ def gun_kill(stats, screen, gun, enemies, bullets):
         stats.run_game = False
         sys.exit()
 
-def update_enemies(stats, screen, gun, enemies, bullets):
+def update_enemies(stats, screen, sc, gun, enemies, bullets):
     "обновляет позицию жуликов"
     enemies.update()
     if pygame.sprite.spritecollideany(gun, enemies):
-        gun_kill(stats, screen, gun, enemies, bullets)
+        gun_kill(stats, screen, sc, gun, enemies, bullets)
+    enemies_check(stats, screen, sc, gun, enemies, bullets)
 
-    enemies_check(stats, screen, gun, enemies, bullets)
 
-
-def enemies_check(stats, screen, gun, enemies, bullets):
+def enemies_check(stats, screen, sc, gun, enemies, bullets):
     #проверка жуликов у края экрана
     screen_rect = screen.get_rect()
     for enemу in enemies.sprites():
         if enemу.rect.bottom >= screen_rect.bottom:
-            gun_kill(stats, screen, gun, enemies, bullets)
+            gun_kill(stats, screen, sc, gun, enemies, bullets)
             break
 
 
