@@ -30,22 +30,28 @@ def events(screen, gun, bullets):
 
 
 
-def update(bg_color, screen, gun, enemies, bullets):
+def update(bg_color, screen, stats, sc, gun, enemies, bullets):
     "обновление экрана"
     screen.fill(bg_color)
+    sc.show_score()
     for bullet in bullets.sprites():
         bullet.draw_bullet()
     gun.output()
     enemies.draw(screen)
     pygame.display.flip()
 
-def update_bullets(screen, bullets, enemies):
+def update_bullets(screen, stats, sc, bullets, enemies):
     "обновлять позиции пуль"
     bullets.update()
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
     collisions =  pygame.sprite.groupcollide(bullets, enemies, True, True)
+    if collisions:
+        for enemies in collisions.values():
+            stats.score += 10 * len(enemies)
+        sc.image_score()
+        check_high_score(stats, sc)
     if len(enemies) == 0:
         bullets.empty()
         create_army(screen, enemies)
@@ -99,3 +105,11 @@ def create_army(screen, enemies):
             enemy.rect.x = enemy.x
             enemy.rect.y = enemy.rect.height + (enemy.rect.height * row_number)
             enemies.add(enemy)
+
+
+def check_high_score(stats, sc):
+    if stats.score > stats.high_score:
+        stats.high_score = stats.score
+        sc.image_high_score()
+        with open('high_score.txt', 'w') as f:
+            f.write(str(stats.high_score))
