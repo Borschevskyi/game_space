@@ -58,7 +58,7 @@ def update_bullets(screen, stats, sc, bullets, enemies):
         create_army(screen, enemies)
 
 
-def gun_kill(stats, screen, sc,  gun, enemies, bullets):
+def gun_kill(stats, screen, sc, gun, enemies, bullets):
     if stats.guns_left > 0:
         stats.guns_left -= 1
         sc.image_guns()
