@@ -98,7 +98,7 @@ def create_army(screen, enemies):
     enemy_height = enemy.rect.height
     number_enemy_y = int((800 - 400 * 1) / enemy_height)
 
-    for row_number in range (number_enemy_y - 1):# жулики по высоте
+    for row_number in range (number_enemy_y - 6):# жулики по высоте
         for enemy_nubmer in range(nubmer_enemy_x):
             enemy = Enemy(screen)
             enemy.x = (enemy_width * 1.6) + ((enemy_width * 1.4) * enemy_nubmer) #Расстояние между жуликами

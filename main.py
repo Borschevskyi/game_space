@@ -6,6 +6,7 @@ from scores import Scores
 
 def run():
     pygame.init()
+    FPS = pygame.time.Clock()
     screen = pygame.display.set_mode((700, 800))
     pygame.display.set_caption("Space Game")
     bg_color = (0, 0, 0)
@@ -19,6 +20,7 @@ def run():
 
     while True:
         controls.events(screen, gun, bullets)
+        FPS.tick(240)
         if stats.run_game:
             gun.update_gun()
             controls.update(bg_color, screen, stats, sc, gun, enemies, bullets)
