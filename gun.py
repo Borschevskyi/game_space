@@ -1,10 +1,10 @@
 import pygame
 from pygame.sprite import Sprite
 
-class Gun(Sprite):
 
+class Gun(Sprite):
     def __init__(self, screen):
-        "инициализация пушки"
+        """инициализация пушки"""
         super(Gun, self).__init__()
         self.screen = screen
         self.image = pygame.image.load("images/gun.png")
@@ -17,11 +17,11 @@ class Gun(Sprite):
         self.mleft = False
 
     def output(self):
-        "отрисовка пушки"
+        """отрисовка пушки"""
         self.screen.blit(self.image, self.rect)
 
     def update_gun(self):
-        "обновление позиции пушки"
+        """обновление позиции пушки"""
         if self.mright and self.rect.right < self.screen_rect.right:
             self.center += 1.5
         if self.mleft and self.rect.left > 0:
@@ -30,4 +30,5 @@ class Gun(Sprite):
         self.rect.centerx = self.center
 
     def create_gun(self):
+        """размещение пушки по центру внизу экрана"""
         self.center = self.screen_rect.centerx
