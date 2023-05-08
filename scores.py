@@ -1,9 +1,15 @@
 import pygame.font
-from gun import Gun
 from pygame.sprite import Group
 
+from gun import Gun
+
+
 class Scores():
-    def __init__(self, screen, stats):
+    """вывод игровой информации"""
+
+    def __init__(self,
+                 screen,
+                 stats):
         self.screen = screen
         self.screen_rect = screen.get_rect()
         self.stats = stats
@@ -12,19 +18,24 @@ class Scores():
         self.image_score()
         self.image_high_score()
         self.image_guns()
+        self.image_game_over()
 
     def image_score(self):
+        """преобразование текста счета в графическое изображение"""
         self.score_img = self.font.render(str(self.stats.score), True, self.text_color, (0, 0, 0))
         self.score_rect = self.score_img.get_rect()
         self.score_rect.right = self.screen_rect.right - 40
         self.score_rect.top = 20
 
     def image_high_score(self):
+        """преобразование рекорда в графическое изображение"""
         self.high_score_image = self.font.render(str(self.stats.high_score), True, self.text_color, (0, 0, 0))
         self.high_score_rect = self.high_score_image.get_rect()
         self.high_score_rect.centerx = self.screen_rect.centerx
         self.high_score_rect.top = self.screen_rect.top + 20
+
     def image_guns(self):
+        """количество жизней"""
         self.guns = Group()
         for gun_number in range(self.stats.guns_left):
             gun = Gun(self.screen)
@@ -32,10 +43,16 @@ class Scores():
             gun.rect.y = 20
             self.guns.add(gun)
 
+    def image_game_over(self):
+        """изображение game over"""
+        self.game_over_image = pygame.image.load(
+            "/Users/borschevskyi/PycharmProjects/game_space/images/game_over.png")
+        self.game_over_rect = self.game_over_image.get_rect()
+        self.game_over_rect.centerx = self.screen_rect.centerx
+        self.game_over_rect.centery = self.screen_rect.centery
+
     def show_score(self):
+        """вывод счета на экран"""
         self.screen.blit(self.score_img, self.score_rect)
         self.screen.blit(self.high_score_image, self.high_score_rect)
         self.guns.draw(self.screen)
-
-
-
