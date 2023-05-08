@@ -1,8 +1,11 @@
-import pygame, controls
-from gun import Gun
+import controls
+import pygame
 from pygame.sprite import Group
-from stats import Stats
+
+from gun import Gun
 from scores import Scores
+from stats import Stats
+
 
 def run():
     pygame.init()
@@ -16,7 +19,6 @@ def run():
     controls.create_army(screen, enemies)
     stats = Stats()
     sc = Scores(screen, stats)
-
 
     while True:
         controls.events(screen, gun, bullets)
