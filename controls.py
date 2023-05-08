@@ -30,7 +30,6 @@ def events(screen, gun, bullets):
             elif event.key == pygame.K_LEFT:
                 gun.mleft = False
 
-
 def update(bg_color, screen, sc, gun, enemies, bullets):
     """обновление экрана"""
     screen.fill(bg_color)
